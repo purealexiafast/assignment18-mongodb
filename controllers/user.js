@@ -27,6 +27,39 @@ const userController = {
             console.log(err)
             res.status(500).json(err)
         }
+    },
+
+    async updateUser(req, res) {
+        try {
+            const updateUser = await User.findOneAndUpdate(
+                {
+                    _id: req.params.id
+                },
+
+                {
+                    $set: req.body
+                },
+
+                {
+                    runValidators: true,
+                    new: true
+                }
+            )
+            res.json(updateUser)
+        } catch (err) {
+            console.log(err)
+            res.status(500).json(err)
+        }
+    },
+
+    async deleteUser(req, res) {
+        try {
+            const deleteUser = await User.findOneAndDelete({ _id: req.params.id })
+            res.json(deleteUser)
+        } catch (err) {
+            console.log(err)
+            res.status(500).json(err)
+        }
     }
 }
 
