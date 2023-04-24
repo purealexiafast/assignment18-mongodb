@@ -60,6 +60,61 @@ const userController = {
             console.log(err)
             res.status(500).json(err)
         }
+    },
+
+    async addFriend(req, res) {
+        try {
+            const addedFriend = await User.findOneAndUpdate(
+                {
+                    _id: req.params.id
+
+                },
+
+                {
+                    $addToSet: {
+                        friends: req.params.friendId
+                    }
+                },
+
+                {
+                    runValidators: true,
+                    new: true
+                }
+            )
+            res.json(addedFriend)
+
+
+        } catch (err) {
+            console.log(err)
+            res.status(500).json(err)
+        }
+    },
+
+    async deleteFriend(req, res) {
+        try {
+            const deletedFriend = await User.findOneAndUpdate(
+                {
+                    _id: req.params.id
+                },
+
+                {
+                    $pull: {
+                        friends: req.params.friendId
+                    }
+                },
+
+                {
+                    runValidators: true,
+                    new: true
+                }
+            )
+            res.json(deletedFriend)
+
+
+        } catch (err) {
+            console.log(err)
+            res.status(500).json(err)
+        }
     }
 }
 
